@@ -1,0 +1,48 @@
+---
+# tasks file for ansible-clamav
+
+# comment Example in config files
+- name: Ensure line started by Example is remove or commented
+  lineinfile:
+    path: "{{item}}"
+    regexp: '^Example'
+    line: '#Example'
+  with_items:
+   - "/etc/freshclam.conf"
+   - "/etc/clamd.d/scan.conf"
+  tags: remove,example
+
+# comment out LocalSocket
+- name: Ensure LocalSocket line is commented out
+  lineinfile:
+    path: "/etc/clamd.d/scan.conf"
+    regexp: '^.*LocalSocket .*$'
+    line: 'LocalSocket /var/run/clamd.scan/clamd.sock'
+  tags: socket
+
+# Push rules config file
+- template:
+    src: clamd-freshclam.service.j2
+    dest: "/usr/lib/systemd/system/freshclam.service"
+  tags: freshclam
+
+# Start freshclam service
+- name: start freshclam
+  systemd:
+    name: freshclam
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  with_items:
+   - freshclam
+   - clamd@scan
+  tags: service,start
+
+# add cron job to update databse 
+- name: Ensure a job that runs a freshclam.
+  cron:
+    name: "update clamav database"
+    minute: "0"
+    hour: "01,13"
+    job: "/usr/bin/freshclam --quiet"
+  tags: cron,db_update

@@ -1,0 +1,40 @@
+---
+# tasks file for ansible-clamav
+
+- name: install clamv packages
+  yum:
+    name: 
+     - clamav-server 
+     - clamav-data 
+     - clamav-update 
+     - clamav-filesystem 
+     - clamav 
+     - clamav-scanner-systemd 
+     - clamav-devel 
+     - clamav-lib 
+     - clamav-server-systemd
+    state: present
+    enablerepo: "epel"
+  #notify: start 
+  tags: install
+
+# check selinux status
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
+
+# set selinux context for clamav
+#  setsebool -P antivirus_can_scan_system 1 / setsebool -P clamd_use_jit 1
+- name: Set antivirus_can_scan_system and clamd_use_jit flag on and keep it persistent across reboot
+  seboolean:
+    name: "{{item}}"
+    state: yes
+    persistent: yes
+  with_items:
+   - antivirus_can_scan_system
+   - clamd_use_jit
+  when: '"Enabled" in sestatus.stdout'
+
+
+

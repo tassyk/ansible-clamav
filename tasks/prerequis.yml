@@ -1,0 +1,23 @@
+# tasks file for ansible-clamav
+
+- name: Add Epel repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgcheck: no
+  tags: epel
+
+- name: upgrade all packages, excluding kernel & some related packages
+  yum:
+    name: '*'
+    state: latest
+    #exclude: kernel*,security*
+  tags: update_all
+  when: update_pkg is defined and update_pkg
+
+# Handler showing how to clean yum metadata cache
+- name: yum-clean-metadata
+  command: yum clean metadata
+  args:
+    warn: no

@@ -1,0 +1,9 @@
+---
+# tasks file for ansible-clamav
+
+- include_tasks: prerequis.yml
+
+- include_tasks: install.yml
+
+
+- include_tasks: setup.yml
