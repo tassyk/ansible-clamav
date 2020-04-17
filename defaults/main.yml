@@ -1,2 +1,22 @@
 ---
 # defaults file for ansible-clamav
+
+
+## freshclam vars
+##freshclam_log_file
+##freshclam_log_file_maxsize
+##freshclam_log_time
+##freshclam_log_verbose 
+##freshclam_log_syslog
+##freshclam_log_facility
+##freshclam_log_rotate
+##freshclam_db_custom_url
+
+## clamd
+##freshclam_log_file
+##freshclam_log_file_maxsize
+##freshclam_log_time
+##freshclam_log_verbose 
+##freshclam_log_syslog
+##freshclam_log_facility
+##freshclam_log_rotate

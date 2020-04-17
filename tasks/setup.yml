@@ -1,41 +1,80 @@
 ---
 # tasks file for ansible-clamav
 
-# comment Example in config files
-- name: Ensure line started by Example is remove or commented
-  lineinfile:
-    path: "{{item}}"
-    regexp: '^Example'
-    line: '#Example'
+- name: Ensure log files exist
+  file:
+    path: "{{item.path}}"
+    state: touch
+    mode: "{{item.mode}}"
+    owner: "{{item.owner}}"
+    group: "{{item.group}}"
   with_items:
-   - "/etc/freshclam.conf"
-   - "/etc/clamd.d/scan.conf"
-  tags: remove,example
+   - {path: "{{clamd_log_file}}", mode: 0644, owner: clamscan, group: clamscan}
+   - {path: "{{freshclam_log_file}}", mode: 0644, owner: clamupdate, group: clamupdate}
+  when: clamd_log_file is defined or freshclam_log_file is defined
+  tags: services,daemons,log
 
-# comment out LocalSocket
-- name: Ensure LocalSocket line is commented out
-  lineinfile:
-    path: "/etc/clamd.d/scan.conf"
-    regexp: '^.*LocalSocket .*$'
-    line: 'LocalSocket /var/run/clamd.scan/clamd.sock'
-  tags: socket
+- name: Ensure clamd service files exist
+  stat:
+    path: "/usr/lib/systemd/system/clamd@.service"
+  register: clamdf
+  tags: services,daemons
 
-# Push rules config file
-- template:
-    src: clamd-freshclam.service.j2
-    dest: "/usr/lib/systemd/system/freshclam.service"
-  tags: freshclam
+- name: Ensure freshclam service files exist
+  stat:
+    path: "/usr/lib/systemd/system/clamav-freshclam.service"
+  register: freshf
+  tags: services,daemons
 
-# Start freshclam and clamd service
-- name: start freshclam and clamd services
-  notify: start freshclam and clamd services
-  tags: service,start
+- debug:
+    var: clamdf.stat.path 
+  tags: services,daemons
+  when: clamdf.stat.exists is defined and clamdf.stat.exists
 
-# add cron job to update databse 
-- name: Ensure a job that runs a freshclam.
-  cron:
-    name: "update clamav database"
-    minute: "0"
-    hour: "01,13"
-    job: "/usr/bin/freshclam --quiet"
-  tags: cron,db_update
+- debug:
+    var: freshf.stat.path 
+  tags: services,daemons
+  when: freshf.stat.exists is defined and freshf.stat.exists
+
+# Push service file
+- name: push clamdscan service file
+  template:
+    src: services/clamd.service.j2
+    dest: "/usr/lib/systemd/system/clamd@.service"
+    owner: clamscan
+    group: clamscan
+    mode: 0644
+  tags: clamd,services,daemons
+  when: clamdf.stat.exists not defined or not clamdf.stat.exists
+
+- name: push freshclam service file
+  template:
+    src: services/clamav-freshclam.service.j2
+    dest: "/usr/lib/systemd/system/clamav-freshclam.service"
+    owner: clamupdate
+    group: clamupdate
+    mode: 0644
+  tags: freshclam,services,daemons
+  when: freshf.stat.exists not defined or not freshf.stat.exists
+
+
+## Start freshclam and clamd service
+#- name: start freshclam and clamd services
+#  systemd:
+#    name: "{{item}}"
+#    state: started
+#    daemon_reload: yes
+#    enabled: yes
+#  with_items:
+#   - clamav-freshclam
+#   - clamd@scan
+#  tags: service,start,daemons
+#
+## add cron job to update databse 
+#- name: Ensure a job that runs a freshclam.
+#  cron:
+#    name: "update clamav database"
+#    minute: "0"
+#    hour: "01,13"
+#    job: "/usr/bin/freshclam --quiet"
+#  tags: cron,db_update
