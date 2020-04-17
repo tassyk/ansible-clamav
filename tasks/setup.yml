@@ -24,7 +24,7 @@
   with_items:
    - {src: "conf/scan.conf.j2", dest: "/etc/clamd.d/scan.conf", mode: 644, owner: clamscan, group: clamscan}
    - {src: "conf/freshclam.conf.j2", dest: "/etc/freshclam.conf", mode: 644, owner: clamupdate, group: clamupdate}
-  tags: services,daemons,log
+  tags: conf,config
 
 
 - name: Ensure clamd service files exist

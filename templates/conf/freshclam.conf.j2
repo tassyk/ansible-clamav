@@ -59,7 +59,7 @@ LogSyslog yes
 # Specify the type of syslog messages - please refer to 'man syslog'
 # for facility names.
 # Default: LOG_LOCAL6
-% if freshclam_log_facility is defined and freshclam_log_facility != " " %}
+{% if freshclam_log_facility is defined and freshclam_log_facility != " " %}
 LogFacility {{freshclam_log_facility}}
 {% else %}
 #LogFacility LOG_MAIL
@@ -119,7 +119,7 @@ DatabaseMirror database.clamav.net
 # Default: no custom URLs
 {% if freshclam_db_custom_url is defined and freshclam_db_custom_url %}
 {% for url in freshclam_db_custom_url %}
-{{url}}
+DatabaseCustomURL {{url}}
 {% endfor %}
 {% else %}
 #DatabaseCustomURL http://myserver.example.com/mysigs.ndb
