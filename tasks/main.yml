@@ -1,9 +1,18 @@
 ---
 # tasks file for ansible-clamav
 
-- include_tasks: prerequis.yml
+- name: options verification
+  include_tasks: verification.yml
+  tags: verification
 
-- include_tasks: install.yml
+- name: prerequis
+  include_tasks: prerequis.yml
+  tags: verification
 
+- name: installation
+  include_tasks: install.yml
+  tags: installation
 
-- include_tasks: setup.yml
+- name: configuration
+  include_tasks: config.yml
+  tags: configuration
