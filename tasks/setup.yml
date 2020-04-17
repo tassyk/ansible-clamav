@@ -28,14 +28,7 @@
 
 # Start freshclam and clamd service
 - name: start freshclam and clamd services
-  systemd:
-    name: "{{item}}"
-    state: started
-    daemon_reload: yes
-    enabled: yes
-  with_items:
-   - clamav.freshclam
-   - clamd@scan
+  notify: start freshclam and clamd services
   tags: service,start
 
 # add cron job to update databse 

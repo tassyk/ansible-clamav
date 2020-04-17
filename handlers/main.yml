@@ -1,19 +1,25 @@
 ---
 # handlers file for ansible-clamav
 
-## freshclam service (re)start
+## start services
+- name: start freshclam and clamd services
+  systemd:
+    name: "{{item}}"
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  with_items:
+   - clamav.freshclam
+   - clamd@scan
+  tags: service,start
+
+## freshclam service restart
 - name: restart freshclam
   systemd:
-    name:  freshclam
-    state: started
-
-## clamd@scan service (re)start
-- name: start clamd@scan
-  systemd:
-    name: clamd@scan
+    name:  clamav.freshclam
     state: restarted
-    enabled: yes
 
+## clamd service restart
 - name: restart clamd@scan
   systemd:
     name:  clamd@scan
