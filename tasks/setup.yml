@@ -45,7 +45,7 @@
     group: clamscan
     mode: 0644
   tags: clamd,services,daemons
-  when: clamdf.stat.exists not defined or not clamdf.stat.exists
+  when: clamdf.stat.exists is not defined or not clamdf.stat.exists
 
 - name: push freshclam service file
   template:
@@ -55,7 +55,7 @@
     group: clamupdate
     mode: 0644
   tags: freshclam,services,daemons
-  when: freshf.stat.exists not defined or not freshf.stat.exists
+  when: freshf.stat.exists is not defined or not freshf.stat.exists
 
 
 ## Start freshclam and clamd service
