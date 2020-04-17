@@ -14,6 +14,19 @@
   when: clamd_log_file is defined or freshclam_log_file is defined
   tags: services,daemons,log
 
+- name: Push config files
+  file:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    mode: "{{item.mode}}"
+    owner: "{{item.owner}}"
+    group: "{{item.group}}"
+  with_items:
+   - {src: "conf/scan.conf.j2", dest: "/etc/clamd.d/scan.conf", mode: 0644, owner: clamscan, group: clamscan}
+   - {src: "{conf/freshclam.conf.j2", dest: "/etc/freshclam.conf ", mode: 0644, owner: clamupdate, group: clamupdate}
+  tags: services,daemons,log
+
+
 - name: Ensure clamd service files exist
   stat:
     path: "/usr/lib/systemd/system/clamd@.service"
