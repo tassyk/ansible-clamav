@@ -1,22 +1,23 @@
 ---
 # defaults file for ansible-clamav
 
+#update_pkg                        # True, False
 
-## freshclam vars
-##freshclam_log_file
-##freshclam_log_file_maxsize
-##freshclam_log_time
-##freshclam_log_verbose 
-##freshclam_log_syslog
-##freshclam_log_facility
-##freshclam_log_rotate
+## freshclam vars                   ## Examples
+##freshclam_log_file                # "/var/log/clamd.scan" 
+##freshclam_log_file_maxsize        # 2M, 1M, ..
+##freshclam_log_time                # yes, no
+##freshclam_log_verbose             # yes, no
+##freshclam_log_syslog              # yes, no
+##freshclam_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ... 
+##freshclam_log_rotate              # yes, no
 ##freshclam_db_custom_url
 
-## clamd
-##freshclam_log_file
-##freshclam_log_file_maxsize
-##freshclam_log_time
-##freshclam_log_verbose 
-##freshclam_log_syslog
-##freshclam_log_facility
-##freshclam_log_rotate
+## clamd                  
+##freshclam_log_file                # "/var/log/freshclam.log"
+##freshclam_log_file_maxsize        # 2M, 1M, ..
+##freshclam_log_time                # yes, no
+##freshclam_log_verbose             # yes, no
+##freshclam_log_syslog              # yes, no
+##freshclam_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ...
+##freshclam_log_rotate              # yes, no

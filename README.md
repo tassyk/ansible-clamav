@@ -11,7 +11,11 @@ Testé sur Centos 7
 Role Variables
 --------------
 
-update_pkg: à mettre **True** pour mettre à jour les paquets du système
+update_pkg: à mettre **True** pour mettre à jour les paquets du système.
+
+Autres variables sont indiquées dans default/main.yml avec des exemples de valeurs possibles.
+
+**Remarque :** Toutes les variables sont facultatives. Si aucune n'est choisie, l'installation se fait avec les configurations par défaut.
 
 Dependencies
 ------------
