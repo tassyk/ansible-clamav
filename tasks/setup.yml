@@ -26,15 +26,15 @@
     dest: "/usr/lib/systemd/system/freshclam.service"
   tags: freshclam
 
-# Start freshclam service
-- name: start freshclam
+# Start freshclam and clamd service
+- name: start freshclam and clamd services
   systemd:
-    name: freshclam
+    name: "{{item}}"
     state: started
     daemon_reload: yes
     enabled: yes
   with_items:
-   - freshclam
+   - clamav.freshclam
    - clamd@scan
   tags: service,start
 
