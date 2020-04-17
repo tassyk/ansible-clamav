@@ -3,17 +3,19 @@
 #
 
 # Avoiding some error 
-- name: fail is freshclam syslog and file log are defined in the same time
+- name: fail if freshclam syslog and file log are defined in the same time
   fail:
      msg: "freshclam syslog and file log are defined in the same time. Choose one option"
   when: freshclam_log_file is defined and freshclam_log_syslog is defined
+  tags: [ install, clamd, freshclam ]
 
-- name: fail is clamd syslog and file log are defined in the same time
+- name: fail if clamd syslog and file log are defined in the same time
   fail:
      msg: "clamd syslog and file log are defined in the same time. Choose one option"
   when: clamd_log_file is defined and clamd_log_syslog is defined
+  tags: [ install, clamd, freshclam ]  
 
-
+# Installation
 - name: install clamv packages
   yum:
     name: 
@@ -28,8 +30,7 @@
      - clamav-server-systemd
     state: present
     enablerepo: "epel"
-  #notify: start 
-  tags: install
+  tags: [ install, clamd, freshclam ]
 
 # set selinux context for clamav
 #  setsebool -P antivirus_can_scan_system 1 / setsebool -P clamd_use_jit 1
@@ -42,6 +43,7 @@
    - antivirus_can_scan_system
    - antivirus_use_jit
   when: ansible_selinux.status == "enabled"
+  tags: [ install, selinux, clamd, freshclam ]
 
 
 
