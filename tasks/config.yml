@@ -1,8 +1,8 @@
 ---
 # tasks file for ansible-clamav
 
-# log file check
-- name: Ensure log files exist
+# log files check
+- name: Ensure clamd log files exist when defined
   file:
     path: "{{item.path}}"
     state: touch
@@ -11,9 +11,20 @@
     group: "{{item.group}}"
   with_items:
    - {path: "{{clamd_log_file}}", mode: 0644, owner: clamscan, group: clamscan}
-   - {path: "{{freshclam_log_file}}", mode: 0644, owner: clamupdate, group: clamupdate}
   when: clamd_log_file is defined or freshclam_log_file is defined
   tags: [ services, daemons, log, clamd, freshclam ]
+
+- name: Ensure freshclam log files exist when defined
+  file:
+    path: "{{item.path}}"
+    state: touch
+    mode: "{{item.mode}}"
+    owner: "{{item.owner}}"
+    group: "{{item.group}}"
+  with_items:
+   - {path: "{{freshclam_log_file}}", mode: 0644, owner: clamupdate, group: clamupdate}
+  when: freshclam_log_file is defined
+  tags: [ services, daemons, log, freshclam ]
 
 # config files
 - name: Push config files
