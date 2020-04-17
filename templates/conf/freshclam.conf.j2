@@ -118,7 +118,7 @@ DatabaseMirror database.clamav.net
 #   http(s)://, ftp(s)://, or file://
 # Default: no custom URLs
 {% if freshclam_db_custom_url is defined and freshclam_db_custom_url %}
-{% for url in freshclam_db_custom_url%}
+{% for url in freshclam_db_custom_url %}
 {{url}}
 {% endfor %}
 {% else %}

@@ -65,6 +65,7 @@ LogFacility {{clamd_log_facility}}
 {% else %}
 #LogFacility LOG_MAIL
 {% endif %}
+
 # Enable verbose logging.
 # Default: no
 {% if clamd_log_verbose is defined and clamd_log_verbose in ["yes", "no"] %}
