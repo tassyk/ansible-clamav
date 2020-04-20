@@ -14,10 +14,10 @@
 ##freshclam_db_custom_url
 
 ## clamd                  
-##freshclam_log_file                # "/var/log/freshclam.log"
-##freshclam_log_file_maxsize        # 2M, 1M, ..
-##freshclam_log_time                # yes, no
-##freshclam_log_verbose             # yes, no
-##freshclam_log_syslog              # yes, no
-##freshclam_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ...
-##freshclam_log_rotate              # yes, no
+##clamd_log_file                # "/var/log/freshclam.log"
+##clamd_log_file_maxsize        # 2M, 1M, ..
+##clamd_log_time                # yes, no
+##clamd_log_verbose             # yes, no
+##clamd_log_syslog              # yes, no
+##clamd_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ...
+##clamd_log_rotate              # yes, no
