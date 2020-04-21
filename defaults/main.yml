@@ -1,6 +1,8 @@
 ---
 # defaults file for ansible-clamav
 
+# All variables are optional
+
 #update_pkg                        # True, False
 
 ## freshclam vars                   ## Examples
@@ -9,9 +11,10 @@
 ##freshclam_log_time                # yes, no
 ##freshclam_log_verbose             # yes, no
 ##freshclam_log_syslog              # yes, no
-##freshclam_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ... 
+##freshclam_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ...
 ##freshclam_log_rotate              # yes, no
-##freshclam_db_custom_url
+##freshclam_db_custom_url           # http://myserver.example.com/mysigs.ndb
+###freshclam_cron                   # cron options (job, name, minute, ...)
 
 ## clamd                  
 ##clamd_log_file                # "/var/log/freshclam.log"
@@ -21,3 +24,5 @@
 ##clamd_log_syslog              # yes, no
 ##clamd_log_facility            # LOG_LOCAL1,...LOG_LOCAL7, LOG_MAIL, ...
 ##clamd_log_rotate              # yes, no
+##clamscan_cron                 # list: cron options (job, name, minute, ...)
+##clamscan_path                 # path/file to scan

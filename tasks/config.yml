@@ -106,4 +106,19 @@
     user: "{{item.user | default(omit)}}"
     state: "{{item.state | default('present')}}"
   with_items: freshclam_cron
-  tags: [ cron, freshclam, clamd]
+  when: freshclam_cron is defined
+  tags: [ cron, freshclam]
+
+## add cron job to scan system
+- name: Add cron job to scan system
+  cron:
+    name: "{{item.name | default('Clamav scan')}}"
+    minute: "{{item.minute | default(0)}}"
+    hour: "{{item.hour | default('04')}}"
+    job: "{{item.job | default('/usr/bin/clamscan -i -r -o --quiet')}}"
+    user: "{{item.user | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  with_items: clamscan_cron
+  when: clamscan_cron is defined
+  tags: [ cron, clamd]
+
