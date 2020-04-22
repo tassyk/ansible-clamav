@@ -3,10 +3,10 @@
 
 #update_pkg                        # True, False
 
-clamd_log_syslog: yes
-clamd_log_facility: LOG_LOCAL6
-clamscan_path: "/bin /sbin/"
-clamscan_cron:
- - name: "Clamav scan scan"
-   job: "/usr/bin/clamscan -i -r {{clamscan_path}} -o --quiet -l /var/log/clam.scan"
+#clamd_log_syslog: yes
+#clamd_log_facility: LOG_LOCAL6
+#clamscan_path: "/bin /sbin/"
+#clamscan_cron:
+# - name: "Clamav scan scan"
+#   job: "/usr/bin/clamscan -i -r {{clamscan_path}} -o --quiet -l /var/log/clam.scan"
 
