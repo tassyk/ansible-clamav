@@ -60,7 +60,7 @@ LogSyslog yes
 # Specify the type of syslog messages - please refer to 'man syslog'
 # for facility names.
 # Default: LOG_LOCAL6
-{% if clamd_log_facility is defined and clamd_log_facilty in ["yes", "no"] %}
+{% if clamd_log_facility is defined %}
 LogFacility {{clamd_log_facility}}
 {% else %}
 #LogFacility LOG_MAIL

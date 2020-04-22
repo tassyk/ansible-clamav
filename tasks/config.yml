@@ -99,8 +99,28 @@
 ## add cron job to update databse 
 - name: Ensure a job that runs a freshclam.
   cron:
-    name: "update clamav database"
-    minute: "0"
-    hour: "01,13"
-    job: "/usr/bin/freshclam --quiet"
-  tags: [ cron, freshclam, clamd]
+    name: "{{item.name | default('update clamav database')}}"
+    minute: "{{item.minute | default(0)}}"
+    hour: "{{item.hour | default('01,13')}}"
+    job: "{{item.job | default('/usr/bin/freshclam --quiet')}}"
+    user: "{{item.user | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  with_items: 
+    - "{{freshclam_cron}}"
+  when: freshclam_cron is defined
+  tags: [ cron, freshclam]
+
+## add cron job to scan system
+- name: Add cron job to scan system
+  cron:
+    name: "{{item.name | default('Clamav scan')}}"
+    minute: "{{item.minute | default(0)}}"
+    hour: "{{item.hour | default('04')}}"
+    job: "{{item.job | default('/usr/bin/clamscan -i -r -o --quiet')}}"
+    user: "{{item.user | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  with_items: 
+    - "{{clamscan_cron}}"
+  when: clamscan_cron is defined
+  tags: [ cron, clamd]
+

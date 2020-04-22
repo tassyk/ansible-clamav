@@ -12,8 +12,11 @@ Role Variables
 --------------
 
 update_pkg: à mettre **True** pour mettre à jour les paquets du système.
+freshclam_cron (optionnel): pour personaliser le cron freshclam
 
 Autres variables sont indiquées dans default/main.yml avec des exemples de valeurs possibles.
+
+Exemple d'utilisation est proposé dans vars/main.yml.
 
 **Remarque :** Toutes les variables sont facultatives. Si aucune n'est choisie, l'installation se fait avec les configurations par défaut.
 
