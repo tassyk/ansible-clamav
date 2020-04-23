@@ -62,11 +62,40 @@
   when: freshf.stat.exists is defined and freshf.stat.exists
   tags: [ services, daemons, freshclam ]
 
-# Push service file
+# Rename services files
+- name: Rename freshclam service name
+  copy:
+    remote_src: yes
+    src: "/usr/lib/systemd/system/clamav-freshclam.service"
+    dest: "/usr/lib/systemd/system/freshclam.service"
+    mode: 644
+    owner: clamupdate
+    group: clamupdate
+  when: freshf.stat.exists is defined and freshf.stat.exists
+  tags: [ services, daemons, freshclam ]
+
+- name: Ensure Clamd ExecStart line is correctly set
+  lineinfile:
+    path: /usr/lib/systemd/system/clamd@.service
+    regexp: '^ExecStart .*conf$'
+    line: 'ExecStart = /usr/sbin/clamd -c /etc/clamd.d/scan.conf'
+
+- name: Rename clamd service name
+  copy:
+    remote_src: yes
+    src: "/usr/lib/systemd/system/clamd@.service"
+    dest: "/usr/lib/systemd/system/clamd.service"
+    mode: 644
+    owner: clamscan
+    group: clamscan
+  when: clamdf.stat.exists is defined and clamdf.stat.exists
+  tags: [ services, daemons, clamd ]
+
+# Push services files when doesn't exist
 - name: push clamdscan service file
   template:
     src: services/clamd.service.j2
-    dest: "/usr/lib/systemd/system/clamd@.service"
+    dest: "/usr/lib/systemd/system/clamd.service"
     owner: clamscan
     group: clamscan
     mode: 644
@@ -75,8 +104,8 @@
 
 - name: push freshclam service file
   template:
-    src: services/clamav-freshclam.service.j2
-    dest: "/usr/lib/systemd/system/clamav-freshclam.service"
+    src: services/freshclam.service.j2
+    dest: "/usr/lib/systemd/system/freshclam.service"
     owner: clamupdate
     group: clamupdate
     mode: 644
@@ -92,8 +121,8 @@
     daemon_reload: yes
     enabled: yes
   with_items:
-   - clamav-freshclam
-   - clamd@scan
+   - freshclam
+   - clamd
   tags: [ services, daemons, freshclam, clamd ]
 
 ## add cron job to update databse 

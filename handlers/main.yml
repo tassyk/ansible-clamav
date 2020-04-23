@@ -4,11 +4,11 @@
 ## freshclam service restart
 - name: restart freshclam
   systemd:
-    name:  clamav.freshclam
+    name:  freshclam
     state: restarted
 
 ## clamd service restart
-- name: restart clamd@scan
+- name: restart clamd
   systemd:
-    name:  clamd@scan
+    name:  clamd
     state: restarted
