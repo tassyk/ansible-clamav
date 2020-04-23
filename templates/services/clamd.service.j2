@@ -5,7 +5,8 @@ After = syslog.target nss-lookup.target network.target
 
 [Service]
 Type = forking
-ExecStart = /usr/sbin/clamd -c /etc/clamd.d/%i.conf
+# ExecStart = /usr/sbin/clamd -c /etc/clamd.d/%i.conf
+ExecStart = /usr/sbin/clamd -c /etc/clamd.d/scan.conf
 # Reload the database
 ExecReload=/bin/kill -USR2 $MAINPID
 Restart = on-failure
